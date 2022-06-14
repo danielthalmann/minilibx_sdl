@@ -28,3 +28,24 @@ void	*mlx_init()
 	return (&mlx);
 }
 
+int	mlx_do_key_autorepeatoff(void *mlx_ptr)
+{
+	(void) mlx_ptr;
+
+	return (0);
+}
+
+int	mlx_do_key_autorepeaton(void *mlx_ptr)
+{
+	(void) mlx_ptr;
+
+	return (0);
+
+}
+
+int	mlx_do_sync(void *mlx_ptr)
+{
+	(void) mlx_ptr;
+
+	return (0);
+}

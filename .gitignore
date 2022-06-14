@@ -56,3 +56,7 @@ dkms.conf
 
 # Test file
 mlx_test
+
+# Codeblock
+*.depend
+*.layout
