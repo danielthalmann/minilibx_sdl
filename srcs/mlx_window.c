@@ -1,5 +1,5 @@
 /**
- * @file mlx.c
+ * @file mlx_window.c
  * @author Daniel Thalmann (daniel@thalmann.li)
  * @date 2022-06-11
  * 
@@ -27,5 +27,41 @@ void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title)
 	return (((t_mlx *)mlx_ptr)->window);
 }
 
-//int	mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
-//				int x, int y);
+int	mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
+				int x, int y)
+{
+	(void) mlx_ptr;
+	(void) win_ptr;
+	(void) img_ptr;
+	(void) x;
+	(void) y;
+
+	return (0);
+}
+
+int	mlx_clear_window(void *mlx_ptr, void *win_ptr)
+{
+	(void) mlx_ptr;
+	(void) win_ptr;
+
+	return (0);
+}
+
+int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color)
+{
+	(void) mlx_ptr;
+	(void) win_ptr;
+	(void) x;
+	(void) y;
+	(void) color;
+
+	return (0);
+}
+
+int	mlx_destroy_window(void *mlx_ptr, void *win_ptr)
+{
+	(void) mlx_ptr;
+	(void) win_ptr;
+
+	return (0);
+}

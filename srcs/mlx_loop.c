@@ -1,5 +1,5 @@
 /**
- * @file mlx.c
+ * @file mlx_loop.c
  * @author Daniel Thalmann (daniel@thalmann.li)
  * @date 2022-06-11
  * 
