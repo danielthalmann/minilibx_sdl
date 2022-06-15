@@ -25,7 +25,8 @@ CFLAGS       = -Wall -Werror -Wextra -I $(INCLUDE)
 RM           = rm -f
 
 ifeq ($(OS),Windows_NT)
-	RM = del
+	RM = cmd //C del
+    LIB := $(addsuffix win/, $(LIB))
     CFLAGS += -D WIN32
     ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
         CFLAGS += -D AMD64
@@ -40,9 +41,11 @@ ifeq ($(OS),Windows_NT)
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
+        LIB := $(addsuffix linux/, $(LIB))
         CFLAGS += -D LINUX
     endif
     ifeq ($(UNAME_S),Darwin)
+        LIB := $(addsuffix osx/, $(LIB))
         CFLAGS += -D OSX
     endif
     UNAME_P := $(shell uname -p)
@@ -57,21 +60,22 @@ else
     endif
 endif
 
+NAME         := $(addprefix $(LIB), $(NAME))
 
 all          : $(NAME)
 
 $(NAME)      : $(OBJS)
-	ar rcs $(addprefix $(LIB), $(NAME)) $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
 test         :
 	$(MAKE) -C $(TEST_PATH)
 	$(MAKE) run -C $(TEST_PATH)
 
 clean        :
-	- $(RM) $(OBJS)
+	$(RM) $(OBJS)
 
 fclean       : clean
-	- $(RM) $(NAME)
+	$(RM) $(NAME)
 
 re           : fclean all
 
