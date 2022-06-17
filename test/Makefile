@@ -8,6 +8,19 @@ CC           = gcc
 
 MLX_LIB_PATH = ../lib/
 MLX_LIB_NAME = libmlx.a
+
+ifeq ($(OS),Windows_NT)
+    MLX_LIB_PATH := $(addsuffix win/, $(MLX_LIB_PATH))
+else
+    UNAME_S := $(shell uname -s)
+    ifeq ($(UNAME_S),Linux)
+        MLX_LIB_PATH := $(addsuffix linux/, $(MLX_LIB_PATH))
+    endif
+    ifeq ($(UNAME_S),Darwin)
+        MLX_LIB_PATH := $(addsuffix osx/, $(MLX_LIB_PATH))
+    endif
+endif
+
 MLX_LIB      = $(MLX_LIB_PATH)$(MLX_LIB_NAME)
 MLX_INCLUDE  = ../include/
 
