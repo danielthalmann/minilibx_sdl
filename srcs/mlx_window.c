@@ -64,11 +64,10 @@ int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color)
 	p.x = x;
 	p.y = y;
 	c = color_create(color);
-    if(SDL_SetRenderDrawColor(((t_mlx *)mlx_ptr)->render,
+	if(SDL_SetRenderDrawColor(((t_mlx *)mlx_ptr)->render,
 			c.r, c.g, c.b, c.a) != 0)
 		return (-1);
 	SDL_RenderDrawPoints(win_ptr, &p, 1);
-
 	return (0);
 }
 

@@ -13,7 +13,7 @@ int	loop(t_app *app)
 	mlx_clear_window(app->mlx_ptr, app->win_ptr);
 	for (size_t i = 0; i < 100; i++)
 	{
-		mlx_pixel_put(app->mlx_ptr, app->win_ptr, i + 50, 100, 512);
+		mlx_pixel_put(app->mlx_ptr, app->win_ptr, i + 50, 100, 0xFF0000);
 	}
 	return (0);
 }
