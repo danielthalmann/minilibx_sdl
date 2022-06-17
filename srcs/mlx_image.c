@@ -10,11 +10,14 @@
 
 void	*mlx_new_image(void *mlx_ptr, int width, int height)
 {
-	(void) mlx_ptr;
-	(void) width;
-	(void) height;
+	SDL_Texture*	texture;
 
-	return (NULL);
+	texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->render,
+                               SDL_PIXELFORMAT_RGBA8888,
+                               SDL_TEXTUREACCESS_STREAMING,
+                               width,
+                               height);
+	return (texture);
 }
 
 /*
@@ -42,7 +45,6 @@ unsigned int	mlx_get_color_value(void *mlx_ptr, int color)
 int	mlx_destroy_image(void *mlx_ptr, void *img_ptr)
 {
 	(void) mlx_ptr;
-	(void) img_ptr;
-	
+	SDL_DestroyTexture(img_ptr);
 	return (0);
 }
