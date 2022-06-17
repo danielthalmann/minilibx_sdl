@@ -28,7 +28,19 @@ $ sudo apt install build-essential
 $ sudo apt-get install libsdl2-dev
 ```
 
+### osx
+
+install sdl2.0
+
+```bash
+$ brew install sdl2
+```
+
 ## build
+
+```bash
+$ make
+```
 
 ### ubuntu
 
