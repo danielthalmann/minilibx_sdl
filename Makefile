@@ -1,6 +1,7 @@
 NAME         = libmlx.a
 
-SRCS         = mlx_hook.c \
+SRCS         = mlx_color.c \
+               mlx_hook.c \
                mlx_image_png.c \
                mlx_image_xpm.c \
                mlx_image.c \
