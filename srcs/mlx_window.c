@@ -34,22 +34,30 @@ void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title)
 int	mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
 				int x, int y)
 {
+	
 	(void) mlx_ptr;
-	(void) win_ptr;
-	(void) img_ptr;
-	(void) x;
-	(void) y;
 
+	SDL_Rect	rect;
+
+	rect.w = ((t_mlx_img *)img_ptr)->width;
+	rect.h = ((t_mlx_img *)img_ptr)->height;
+	rect.x = x;
+	rect.y = y;
+
+	mlx_refresh_texture(img_ptr);
+	SDL_RenderCopy((SDL_Renderer *)win_ptr,
+                   ((t_mlx_img *)img_ptr)->texture,
+                   NULL,
+                   &rect);
 	return (0);
 }
 
 int	mlx_clear_window(void *mlx_ptr, void *win_ptr)
 {
-	(void) mlx_ptr;
 	(void) win_ptr;
 
 	if(SDL_SetRenderDrawColor(((t_mlx *)mlx_ptr)->render,
-			100, 125, 200, 255) != 0)
+			0, 0, 0, 255) != 0)
 		return (-1);
 	if(SDL_RenderClear(((t_mlx *)mlx_ptr)->render) != 0)
 		return (-1);
@@ -63,7 +71,7 @@ int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color)
 
 	p.x = x;
 	p.y = y;
-	c = color_create(color);
+	c = mlx_color_create(color);
 	if(SDL_SetRenderDrawColor(((t_mlx *)mlx_ptr)->render,
 			c.r, c.g, c.b, c.a) != 0)
 		return (-1);

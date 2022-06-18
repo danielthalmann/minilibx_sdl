@@ -9,6 +9,7 @@
 #define	MLX_INTERNAL_H
 
 #include "mlx_key.h"
+#include <stdlib.h>
 #include <SDL2/SDL.h>
 
 typedef struct s_mlx
@@ -23,6 +24,16 @@ typedef struct s_mlx
 	void 			*loop_funct_param;
 }	t_mlx;
 
-SDL_Color	color_create(int color);
+typedef struct s_mlx_img
+{
+	SDL_Texture		*texture;
+	int				bpp;
+	int				width;
+	int				height;
+	char			*data;
+}	t_mlx_img;
+
+SDL_Color	mlx_color_create(int color);
+void		mlx_refresh_texture(t_mlx_img *img);
 
 #endif

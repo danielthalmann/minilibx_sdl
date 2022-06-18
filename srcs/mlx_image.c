@@ -10,14 +10,30 @@
 
 void	*mlx_new_image(void *mlx_ptr, int width, int height)
 {
-	SDL_Texture*	texture;
+	t_mlx_img	*img;
 
-	texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->render,
+	if (!(img = malloc(sizeof(t_mlx_img))))
+		return (NULL);
+	if (!(img->data = malloc(width * height * 4)))
+	{
+		free(img);
+		return (NULL);
+	}
+	img->texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->render,
                                SDL_PIXELFORMAT_RGBA8888,
                                SDL_TEXTUREACCESS_STREAMING,
                                width,
                                height);
-	return (texture);
+	if (!img->texture)
+	{
+		free(img->data);
+		free(img);
+		return (NULL);
+	}
+	img->bpp = 32;
+	img->width = width;
+	img->height = height;
+	return (img);
 }
 
 /*
@@ -45,6 +61,17 @@ unsigned int	mlx_get_color_value(void *mlx_ptr, int color)
 int	mlx_destroy_image(void *mlx_ptr, void *img_ptr)
 {
 	(void) mlx_ptr;
-	SDL_DestroyTexture(img_ptr);
+	SDL_DestroyTexture(((t_mlx_img *)img_ptr)->texture);
+	free(((t_mlx_img *)img_ptr)->data);
+	free(img_ptr);
 	return (0);
+}
+
+void	mlx_refresh_texture(t_mlx_img *img)
+{
+	for (int i = 0; i < img->width * img->height; i += 4)
+	{
+		SDL_SetTextureColorMod(img->texture,
+			img->data[i], img->data[i + 1], img->data[i + 2]);
+	}
 }

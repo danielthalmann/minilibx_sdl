@@ -8,7 +8,7 @@
 #include "mlx.h"
 #include "mlx_internal.h"
 
-SDL_Color	color_create(int color)
+SDL_Color	mlx_color_create(int color)
 {
 	SDL_Color	c;
 
