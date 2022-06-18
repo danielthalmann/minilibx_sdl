@@ -38,14 +38,48 @@ $ brew install sdl2
 
 ## build
 
-```bash
-$ make
-```
-
-### ubuntu
-
-Execute make file
+To compile the library, execute this command :
 
 ```bash
 $ make
 ```
+
+## test
+
+The test can be executed with :
+
+```bash
+$ make test
+```
+
+# Progress of developpement
+
+functions that are functional in the library
+
+- [x] mlx_init
+- [x] mlx_new_window
+- [x] mlx_clear_window
+- [x] mlx_pixel_put
+- [x] mlx_new_image
+- [ ] mlx_get_data_addr
+- [x] mlx_put_image_to_window
+- [ ] mlx_get_color_value
+- [ ] mlx_mouse_hook
+- [ ] mlx_key_hook
+- [ ] mlx_expose_hook
+- [x] mlx_loop_hook
+- [x] mlx_loop
+- [ ] mlx_string_put
+- [ ] mlx_xpm_to_image
+- [ ] mlx_xpm_file_to_image
+- [ ] mlx_png_file_to_image
+- [x] mlx_destroy_window
+- [x] mlx_destroy_image
+- [ ] mlx_hook
+- [ ] mlx_mouse_hide
+- [ ] mlx_mouse_show
+- [ ] mlx_mouse_move
+- [ ] mlx_mouse_get_pos
+- [ ] mlx_do_key_autorepeatoff
+- [ ] mlx_do_key_autorepeaton
+- [ ] mlx_do_sync
