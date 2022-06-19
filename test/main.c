@@ -22,7 +22,7 @@ int	loop(t_app *app)
 	{
 		mlx_pixel_put(app->mlx_ptr, app->win_ptr, i + 50, 100, 0xFF0000);
 	}
-	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 5, 10);
+	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 30, 30);
 
 	return (0);
 }

@@ -21,7 +21,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 	}
 	img->texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->render,
                                SDL_PIXELFORMAT_RGBA8888,
-                               SDL_TEXTUREACCESS_STREAMING,
+                               SDL_TEXTUREACCESS_TARGET,
                                width,
                                height);
 	if (!img->texture)
