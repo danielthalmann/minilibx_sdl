@@ -10,11 +10,13 @@
 
 int     mlx_mouse_hide()
 {
+	SDL_ShowCursor(SDL_DISABLE);
 	return (0);
 }
 
 int     mlx_mouse_show()
 {
+	SDL_ShowCursor(SDL_ENABLE);
 	return (0);
 }
 

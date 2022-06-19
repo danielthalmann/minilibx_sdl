@@ -40,6 +40,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
 			   int *size_line, int *endian)
 {
+	// maybe use SDL_RenderReadPixels(renderer, rect, format, pixels, pitch); ???
 	*bits_per_pixel = ((t_mlx_img *)img_ptr)->bpp;
 	*size_line = ((t_mlx_img *)img_ptr)->width * COLOR_BY_PIXEL;
 	*endian = 0; // little endian
@@ -51,7 +52,7 @@ unsigned int	mlx_get_color_value(void *mlx_ptr, int color)
 	(void) mlx_ptr;
 	(void) color;
 	
-	return (0);
+	return (color);
 }
 
 int	mlx_destroy_image(void *mlx_ptr, void *img_ptr)

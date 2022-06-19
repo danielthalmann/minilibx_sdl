@@ -77,8 +77,8 @@ functions that are functional in the library
 - [x] mlx_destroy_window
 - [x] mlx_destroy_image
 - [ ] mlx_hook
-- [ ] mlx_mouse_hide
-- [ ] mlx_mouse_show
+- [x] mlx_mouse_hide
+- [x] mlx_mouse_show
 - [ ] mlx_mouse_move
 - [ ] mlx_mouse_get_pos
 - [ ] mlx_do_key_autorepeatoff
