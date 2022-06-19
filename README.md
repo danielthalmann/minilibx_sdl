@@ -1,3 +1,4 @@
+![progress](https://img.shields.io/static/v1?label=progress&message=30%&color=orange)
 # minilibx_sdl
 This is multi platform MinilibX with sdl
 
