@@ -1,5 +1,5 @@
 /**
- * @file mlx_internal.h
+ * @file mlx_key.h
  * @author Daniel Thalmann (daniel@thalmann.li)
  * @date 2022-06-17
  * 
