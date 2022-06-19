@@ -61,7 +61,7 @@ functions that are functional in the library
 - [x] mlx_clear_window
 - [x] mlx_pixel_put
 - [x] mlx_new_image
-- [ ] mlx_get_data_addr
+- [x] mlx_get_data_addr
 - [x] mlx_put_image_to_window
 - [ ] mlx_get_color_value
 - [ ] mlx_mouse_hook
