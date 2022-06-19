@@ -14,7 +14,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 
 	if (!(img = malloc(sizeof(t_mlx_img))))
 		return (NULL);
-	if (!(img->data = malloc(width * height * 4)))
+	if (!(img->data = calloc(width * height * COLOR_BY_PIXEL, sizeof(char))))
 	{
 		free(img);
 		return (NULL);
@@ -30,24 +30,20 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 		free(img);
 		return (NULL);
 	}
-	img->bpp = 32;
+	img->render = ((t_mlx *)mlx_ptr)->render;
+	img->bpp = COLOR_BY_PIXEL * 8;
 	img->width = width;
 	img->height = height;
 	return (img);
 }
 
-/*
-**  return void *0 if failed
-*/
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
 			   int *size_line, int *endian)
 {
-	(void) img_ptr;
-	(void) bits_per_pixel;
-	(void) size_line;
-	(void) endian;
-
-	return (NULL);
+	*bits_per_pixel = ((t_mlx_img *)img_ptr)->bpp;
+	*size_line = ((t_mlx_img *)img_ptr)->width * COLOR_BY_PIXEL;
+	*endian = 0; // little endian
+	return ((char *)((t_mlx_img *)img_ptr)->data);
 }
 
 unsigned int	mlx_get_color_value(void *mlx_ptr, int color)
@@ -69,9 +65,19 @@ int	mlx_destroy_image(void *mlx_ptr, void *img_ptr)
 
 void	mlx_refresh_texture(t_mlx_img *img)
 {
-	for (int i = 0; i < img->width * img->height; i += 4)
+	SDL_SetRenderTarget(img->render, img->texture);
+
+	SDL_Rect rect = {0, 0, 1, 1};
+	for (int i = 0; i < img->width * img->height; i += COLOR_BY_PIXEL)
 	{
-		SDL_SetTextureColorMod(img->texture,
-			img->data[i], img->data[i + 1], img->data[i + 2]);
+		rect.x = (i / COLOR_BY_PIXEL) % img->width;
+		rect.y = (i / COLOR_BY_PIXEL) / img->width;
+		SDL_SetRenderDrawColor(img->render, img->data[i], img->data[i + 1], img->data[i + 2], 255);
+		SDL_RenderFillRect(img->render, &rect);
+//		printf ("color %d, %d, %d\n", img->data[i], img->data[i + 1], img->data[i + 2]);
+//		SDL_SetTextureColorMod(img->texture,
+//			img->data[i], img->data[i + 1], img->data[i + 2]);
 	}
+
+	SDL_SetRenderTarget(img->render, NULL);
 }
