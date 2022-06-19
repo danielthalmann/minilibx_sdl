@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 			   &app.size_line,  &app.endian);
 
 	for (size_t i = 0; i < 100; i++)
-		app.img_pixel_ptr[i] = 0x00ff00;
+		app.img_pixel_ptr[i + 250] = 0x00ff00;
 
 	mlx_loop_hook (app.mlx_ptr, &loop, &app);
 	
