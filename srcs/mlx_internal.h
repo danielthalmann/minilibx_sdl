@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
+#define COLOR_BY_PIXEL	4
+
 typedef struct s_mlx
 {
 	SDL_Window 		*window;
@@ -27,10 +29,11 @@ typedef struct s_mlx
 typedef struct s_mlx_img
 {
 	SDL_Texture		*texture;
+	SDL_Renderer	*render;
 	int				bpp;
 	int				width;
 	int				height;
-	char			*data;
+	unsigned char	*data;
 }	t_mlx_img;
 
 SDL_Color	mlx_color_create(int color);

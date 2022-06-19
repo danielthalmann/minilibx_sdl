@@ -34,21 +34,24 @@ void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title)
 int	mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
 				int x, int y)
 {
-	
-	(void) mlx_ptr;
+	(void) win_ptr;
+	(void) x;
+	(void) y;
 
-	SDL_Rect	rect;
+	SDL_Rect	dst = {0, 0, 0, 0};
 
-	rect.w = ((t_mlx_img *)img_ptr)->width;
-	rect.h = ((t_mlx_img *)img_ptr)->height;
-	rect.x = x;
-	rect.y = y;
+	dst.x = x;
+	dst.y = y;
+	dst.w = ((t_mlx_img *)img_ptr)->width;
+	dst.h = ((t_mlx_img *)img_ptr)->height;
+	// SDL_QueryTexture(((t_mlx_img *)img_ptr)->texture, NULL, NULL, &dst.w, &dst.h);
 
 	mlx_refresh_texture(img_ptr);
-	SDL_RenderCopy((SDL_Renderer *)win_ptr,
+
+	SDL_RenderCopy(((t_mlx *)mlx_ptr)->render,
                    ((t_mlx_img *)img_ptr)->texture,
                    NULL,
-                   &rect);
+                   &dst);
 	return (0);
 }
 
