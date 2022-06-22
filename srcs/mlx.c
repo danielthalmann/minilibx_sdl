@@ -7,6 +7,13 @@
 
 #include "mlx.h"
 #include "mlx_internal.h"
+#include <signal.h>
+
+void	handle_signals(int signum)
+{
+	if (signum == SIGQUIT)
+		SDL_Quit();
+}
 
 /**
  * @brief initialize the library
@@ -25,6 +32,9 @@ void	*mlx_init()
         }    
         mlx.is_init = 1;    
     }
+	
+	signal(SIGQUIT, handle_signals);
+
 	return (&mlx);
 }
 
