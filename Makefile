@@ -6,6 +6,7 @@ SRCS         = mlx_color.c \
                mlx_image_png.c \
                mlx_image_xpm.c \
                mlx_image.c \
+               mlx_key.c \
                mlx_loop.c \
                mlx_mouse.c \
                mlx_string.c \
