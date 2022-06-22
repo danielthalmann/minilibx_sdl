@@ -51,5 +51,10 @@ void		mlx_refresh_texture(t_mlx_img *img);
 int			mlx_raise_expose (t_mlx_window *win_ptr);
 int			mlx_raise_keydown(t_mlx_window *win_ptr, SDL_Keysym *keysym);
 int			mlx_raise_keyup(t_mlx_window *win_ptr, SDL_Keysym *keysym);
+int			mlx_raise_mouseup(t_mlx_window *win_ptr, SDL_MouseButtonEvent *m);
+int			mlx_raise_mousedown(t_mlx_window *win_ptr, SDL_MouseButtonEvent *m);
+int			mlx_raise_quit(t_mlx_window *win_ptr);
+int			mlx_sdl_button_to_mlx_button(int button);
+int			mlx_keycode_to_mxl_key(SDL_Scancode scancode);
 
 #endif
