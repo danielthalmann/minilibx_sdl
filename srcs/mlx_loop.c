@@ -36,10 +36,20 @@ int	mlx_loop (void *mlx_ptr)
 		{
 			if(event.type == SDL_QUIT)
 				((t_mlx *)mlx_ptr)->quit_loop = 1;
+			if(event.type == SDL_KEYDOWN)
+				mlx_raise_keydown(&((t_mlx *)mlx_ptr)->win, &event.key.keysym);
+			if(event.type == SDL_KEYUP)
+				mlx_raise_keyup(&((t_mlx *)mlx_ptr)->win, &event.key.keysym);
+			if(event.type == SDL_WINDOWEVENT)
+				if (event.window.event == SDL_WINDOWEVENT_SHOWN)
+					mlx_raise_expose(&((t_mlx *)mlx_ptr)->win);
 		}
-		SDL_RenderPresent(((t_mlx *)mlx_ptr)->render);
-		SDL_Delay(100);
+		if (!((t_mlx *)mlx_ptr)->quit_loop)
+		{
+			SDL_RenderPresent(((t_mlx *)mlx_ptr)->win.render);
+			SDL_Delay(100);
+		}
 	}
-	mlx_destroy_window(mlx_ptr, ((t_mlx *)mlx_ptr)->render);
+	mlx_destroy_window(mlx_ptr, ((t_mlx *)mlx_ptr)->win.render);
 	return (0);
 }

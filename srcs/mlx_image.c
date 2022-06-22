@@ -19,7 +19,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 		free(img);
 		return (NULL);
 	}
-	img->texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->render,
+	img->texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->win.render,
                                SDL_PIXELFORMAT_RGBA8888,
                                SDL_TEXTUREACCESS_TARGET,
                                width,
@@ -30,7 +30,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 		free(img);
 		return (NULL);
 	}
-	img->render = ((t_mlx *)mlx_ptr)->render;
+	img->render = ((t_mlx *)mlx_ptr)->win.render;
 	img->bpp = COLOR_BY_PIXEL * 8;
 	img->width = width;
 	img->height = height;

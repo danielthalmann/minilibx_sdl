@@ -8,15 +8,25 @@
 #ifndef MLX_EVENT_H
 # define MLX_EVENT_H
 
-enum {
-	MLX_ON_KEYDOWN = 2,
-	MLX_ON_KEYUP = 3,
-	MLX_ON_MOUSEDOWN = 4,
-	MLX_ON_MOUSEUP = 5,
-	MLX_ON_MOUSEMOVE = 6,
+# define MLX_MAX_EVENTS 26
+
+enum e_mlx_event {
+	MLX_ON_KEY_PRESS = 2,
+	MLX_ON_KEY_RELEASE = 3,
+	MLX_ON_BUTTON_PRESS = 4,
+	MLX_ON_BUTTON_RELEASE = 5,
+	MLX_ON_MOTION_NOTIFY = 6,
 	MLX_ON_EXPOSE = 12,
 	MLX_ON_DESTROY = 17
 };
+
+typedef struct s_event_list
+{
+	int		mask;
+	int		(*hook)();
+	void	*param;
+}				t_event_list;
+
 
 // Event		Prototype
 //------------------------------------------------------------

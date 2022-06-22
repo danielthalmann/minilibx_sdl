@@ -41,6 +41,13 @@
 		<Unit filename="srcs/mlx.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="srcs/mlx_color.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="srcs/mlx_event.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="srcs/mlx_event.h" />
 		<Unit filename="srcs/mlx_hook.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -54,6 +61,7 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="srcs/mlx_internal.h" />
+		<Unit filename="srcs/mlx_key.h" />
 		<Unit filename="srcs/mlx_loop.c">
 			<Option compilerVar="CC" />
 		</Unit>

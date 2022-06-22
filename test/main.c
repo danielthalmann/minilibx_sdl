@@ -27,6 +27,15 @@ int	loop(t_app *app)
 	return (0);
 }
 
+int key_release(int keycode, void *param)
+{
+	(void) param;
+	(void) keycode;
+	printf("key code : %d, %c\n", keycode, keycode);
+
+	return (0);
+}
+
 int main(int argc, char** argv)
 {
 	t_app	app;
@@ -47,7 +56,9 @@ int main(int argc, char** argv)
 		app.img_pixel_ptr[i + 250] = 0x00ff00;
 
 	mlx_loop_hook (app.mlx_ptr, &loop, &app);
-	
+
+	mlx_key_hook (app.win_ptr, &key_release, &app);
+
 	mlx_loop(app.mlx_ptr);
 
 	mlx_destroy_image(app.mlx_ptr, app.img_ptr);

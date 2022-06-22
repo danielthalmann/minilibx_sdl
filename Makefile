@@ -1,6 +1,7 @@
 NAME         = libmlx.a
 
 SRCS         = mlx_color.c \
+               mlx_event.c \
                mlx_hook.c \
                mlx_image_png.c \
                mlx_image_xpm.c \
@@ -16,6 +17,7 @@ OBJS         = $(addprefix $(SRC_PATH), $(SRCS:.c=.o))
 CC           = gcc
 
 SRC_PATH     = srcs/
+OBJS_PATH    = obj/release/
 
 LIB          = lib/
 INCLUDE      = include/
@@ -23,10 +25,8 @@ TEST_PATH    = test/
 
 CFLAGS       = -Wall -Werror -Wextra -I $(INCLUDE)
 
-RM           = rm -f
-
 ifeq ($(OS),Windows_NT)
-	RM = cmd //C del
+
     LIB := $(addsuffix win/, $(LIB))
     CFLAGS += -D WIN32
     ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
@@ -39,7 +39,9 @@ ifeq ($(OS),Windows_NT)
             CFLAGS += -D IA32
         endif
     endif
+
 else
+
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
         LIB := $(addsuffix linux/, $(LIB))
@@ -59,9 +61,30 @@ else
     ifneq ($(filter arm%,$(UNAME_P)),)
         CFLAGS += -D ARM
     endif
+
 endif
 
 NAME         := $(addprefix $(LIB), $(NAME))
+
+OBJS         := $(addprefix $(OBJS_PATH), $(OBJS))
+
+ifeq ($(OS),Windows_NT)
+
+    COMMA:= ,
+    EMPTY:=
+    SPACE:= $(EMPTY) $(EMPTY)
+    
+    RM_OBJS := PowerShell -Command "Remove-item $(subst $(SPACE), $(COMMA),$(strip $(OBJS)))"
+    RM_OUTPUT := PowerShell -Command "Remove-item $(NAME)"
+else
+
+    RM_OBJS := rm -f $(OBJS)
+    RM_OUTPUT := rm -f $(NAME)
+
+endif
+
+$(addprefix $(OBJS_PATH), %.o): %.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 all          : $(NAME)
 
@@ -73,10 +96,10 @@ test         :
 	$(MAKE) run -C $(TEST_PATH)
 
 clean        :
-	$(RM) $(OBJS)
+	- $(RM_OBJS)
 
 fclean       : clean
-	$(RM) $(NAME)
+	- $(RM_OUTPUT)
 
 re           : fclean all
 
