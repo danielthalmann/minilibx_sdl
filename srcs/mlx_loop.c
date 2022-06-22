@@ -35,7 +35,10 @@ int	mlx_loop (void *mlx_ptr)
 		while(SDL_PollEvent(&event))
 		{
 			if(event.type == SDL_QUIT)
+			{
+				mlx_raise_quit(&((t_mlx *)mlx_ptr)->win);
 				((t_mlx *)mlx_ptr)->quit_loop = 1;
+			}
 			if(event.type == SDL_KEYDOWN)
 				mlx_raise_keydown(&((t_mlx *)mlx_ptr)->win, &event.key.keysym);
 			if(event.type == SDL_KEYUP)
@@ -43,6 +46,10 @@ int	mlx_loop (void *mlx_ptr)
 			if(event.type == SDL_WINDOWEVENT)
 				if (event.window.event == SDL_WINDOWEVENT_SHOWN)
 					mlx_raise_expose(&((t_mlx *)mlx_ptr)->win);
+			if(event.type == SDL_MOUSEBUTTONDOWN)
+				mlx_raise_mousedown(&((t_mlx *)mlx_ptr)->win, &event.button);
+			if(event.type == SDL_MOUSEBUTTONUP)
+				mlx_raise_mouseup(&((t_mlx *)mlx_ptr)->win, &event.button);
 		}
 		if (!((t_mlx *)mlx_ptr)->quit_loop)
 		{
