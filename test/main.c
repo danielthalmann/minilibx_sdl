@@ -1,17 +1,35 @@
 
 #include "mlx.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+# ifdef __linux__
+#  define KEY_ESC 65307
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+#  define KEY_UP 65362
+#  define KEY_DOWN 65364
+#  define KEY_SPACE 32
+# else
+#  define KEY_ESC 53
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_UP 126
+#  define KEY_DOWN 125
+#  define KEY_SPACE 49
+# endif
 
 typedef struct s_app
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-
 	void	*img_ptr;
 	int		*img_pixel_ptr;
 	int		bits_per_pixel;
 	int		size_line; 
 	int		endian;
+	int		x;
+	int		y;
 
 } t_app;
 
@@ -22,23 +40,32 @@ int	loop(t_app *app)
 	{
 		mlx_pixel_put(app->mlx_ptr, app->win_ptr, i + 50, 100, 0xFF0000);
 	}
-	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 30, 30);
+	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, app->x + 30, app->y + 30);
 
 	return (0);
 }
 
 int key_release(int keycode, void *param)
 {
-	(void) param;
-	(void) keycode;
-	printf("key code : %d, %c\n", keycode, keycode);
+
+	// printf("key code : %d, %c\n", keycode, keycode);
+	if(keycode == KEY_ESC)
+		exit(0);
+	if(keycode == KEY_UP)
+		((t_app *)param)->y--;
+	if(keycode == KEY_DOWN)
+		((t_app *)param)->y++;
+	if(keycode == KEY_LEFT)
+		((t_app *)param)->x--;
+	if(keycode == KEY_RIGHT)
+		((t_app *)param)->x++;
 
 	return (0);
 }
 
 int main(int argc, char** argv)
 {
-	t_app	app;
+	static t_app	app;
 
 	(void) argc;
 	(void) argv;
@@ -55,9 +82,9 @@ int main(int argc, char** argv)
 	for (size_t i = 0; i < 100; i++)
 		app.img_pixel_ptr[i + 250] = 0x00ff00;
 
-	mlx_loop_hook (app.mlx_ptr, &loop, &app);
+	mlx_loop_hook(app.mlx_ptr, &loop, &app);
 
-	mlx_key_hook (app.win_ptr, &key_release, &app);
+	mlx_key_hook(app.win_ptr, &key_release, &app);
 
 	mlx_loop(app.mlx_ptr);
 
