@@ -65,9 +65,9 @@ functions that are functional in the library
 - [x] mlx_get_data_addr
 - [x] mlx_put_image_to_window
 - [ ] mlx_get_color_value
-- [ ] mlx_mouse_hook
-- [ ] mlx_key_hook
-- [ ] mlx_expose_hook
+- [x] mlx_mouse_hook
+- [x] mlx_key_hook
+- [x] mlx_expose_hook
 - [x] mlx_loop_hook
 - [x] mlx_loop
 - [ ] mlx_string_put
@@ -76,7 +76,7 @@ functions that are functional in the library
 - [ ] mlx_png_file_to_image
 - [x] mlx_destroy_window
 - [x] mlx_destroy_image
-- [ ] mlx_hook
+- [x] mlx_hook
 - [x] mlx_mouse_hide
 - [x] mlx_mouse_show
 - [ ] mlx_mouse_move
