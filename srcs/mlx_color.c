@@ -1,5 +1,5 @@
 /**
- * @file mlx_hook.c
+ * @file mlx_color.c
  * @author Daniel Thalmann (daniel@thalmann.li)
  * @date 2022-06-17
  * 
