@@ -37,3 +37,22 @@ int     mlx_mouse_get_pos(void *win_ptr, int *x, int *y)
 
 	return (0);
 }
+
+int		mlx_sdl_button_to_mlx_button(int button)
+{
+	switch (button)
+	{
+	case SDL_BUTTON_LEFT:
+		return (1);
+	case SDL_BUTTON_MIDDLE:
+		return (3);
+	case SDL_BUTTON_RIGHT:
+		return (2);
+	case SDL_BUTTON_X1:
+		return (4);
+	case SDL_BUTTON_X2:
+		return (5);
+	default:
+		return (1);
+	}
+}
