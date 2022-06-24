@@ -29,6 +29,11 @@ int	xpm_set_header(t_xpm *xpm, char *header)
 
 	xpm->image = malloc(sizeof(int) * xpm->header.width * xpm->header.height);
 
+	memset(xpm->image, 0, sizeof(int) * xpm->header.width * xpm->header.height);
+
+	if(!xpm->image)
+		return (1);
+
 	return (0);
 }
 
@@ -98,12 +103,14 @@ int	atoi_base(char *str, char *base)
 }
 
 
-int	str_to_color(char *s)
+unsigned int	str_to_color(char *s)
 {
 	if (*s == '#')
 		return (atoi_base(++s, "0123456789ABCDEF"));
-	if (strcmp(s, "white"))
-		return (0xFFFFFF);
+	
+	if (strcmp(s, "white") == 0)
+		return (0xFFFFFFFF);
+	
 	return (0);
 }
 
@@ -130,6 +137,18 @@ void	xpm_set_image(t_xpm *xpm, int y, char *row)
 	for (int x = 0; x < xpm->header.width; x++)
 		xpm->image[(y * xpm->header.width) + x] = 
 			xpm_get_color_of(xpm, &row[x * xpm->header.chars_per_pixel]);
+}
+
+void	xpm_print_info(t_xpm *xpm)
+{
+	printf("xpm info :\n");
+	printf("\twidth : %d\n", xpm->header.width);
+	printf("\theight : %d\n", xpm->header.height);
+	printf("\tpalette size : %d\n", xpm->header.color_palette);
+	printf("\tchar per pixel : %d\n", xpm->header.chars_per_pixel);
+
+	for (int y = 0; y < xpm->header.color_palette; y++)
+		printf("\tcolor : %d char : [%s] \n", xpm->colors[y].color, xpm->colors[y].chars_pixel);
 }
 
 void	xpm_free(t_xpm *xpm)

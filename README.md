@@ -71,8 +71,8 @@ functions that are functional in the library
 - [x] mlx_loop_hook
 - [x] mlx_loop
 - [ ] mlx_string_put
-- [ ] mlx_xpm_to_image
-- [ ] mlx_xpm_file_to_image
+- [x] mlx_xpm_to_image
+- [x] mlx_xpm_file_to_image
 - [ ] mlx_png_file_to_image
 - [x] mlx_destroy_window
 - [x] mlx_destroy_image

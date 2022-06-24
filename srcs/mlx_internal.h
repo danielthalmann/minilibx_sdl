@@ -53,20 +53,21 @@ typedef struct s_xpm_header
 
 typedef struct s_xpm_color
 {
-	int	color;
-	char *chars_pixel;
+	unsigned int	color;
+	char 			*chars_pixel;
 }	t_xpm_color;
 
 typedef struct s_xpm
 {
 	t_xpm_header	header;
-	t_xpm_color*	colors;
-	int*			image;
+	t_xpm_color		*colors;
+	unsigned int	*image;
 }	t_xpm;
 
 int		xpm_set_header(t_xpm *xpm, char *header);
 void	xpm_set_colors(t_xpm *xpm, int idx, char *color);
 void	xpm_set_image(t_xpm *xpm, int y, char *row);
+void	xpm_print_info(t_xpm *xpm);
 void	xpm_free(t_xpm *xpm);
 
 typedef struct s_mlx_window

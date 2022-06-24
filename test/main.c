@@ -75,11 +75,11 @@ int main(int argc, char** argv)
 	app.mlx_ptr = mlx_init();
 
 	app.win_ptr = mlx_new_window(app.mlx_ptr, 640, 480, "test window");
-
+/*
 	app.img_ptr = mlx_xpm_file_to_image(app.mlx_ptr, "images/shield.xpm",
 			       &app.image_w, &app.image_h);
+*/
 
-/*
 	app.img_ptr = mlx_new_image(app.mlx_ptr, 100, 100);
 
 	app.img_pixel_ptr = (int *)mlx_get_data_addr(app.img_ptr, &app.bits_per_pixel,
@@ -87,7 +87,7 @@ int main(int argc, char** argv)
 
 	for (size_t i = 0; i < 100; i++)
 		app.img_pixel_ptr[i + 250] = 0x00ff00;
-*/
+
 	mlx_loop_hook(app.mlx_ptr, &loop, &app);
 
 	mlx_key_hook(app.win_ptr, &key_release, &app);
