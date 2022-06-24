@@ -24,6 +24,7 @@ typedef struct s_app
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*img_ptr;
+	void	*img_sprite_ptr;
 	int		*img_pixel_ptr;
 	int		bits_per_pixel;
 	int		size_line; 
@@ -42,7 +43,8 @@ int	loop(t_app *app)
 	{
 		mlx_pixel_put(app->mlx_ptr, app->win_ptr, i + 50, 100, 0xFF0000);
 	}
-	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, app->x + 30, app->y + 30);
+	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_ptr, 300, 350);
+	mlx_put_image_to_window(app->mlx_ptr, app->win_ptr, app->img_sprite_ptr, app->x + 30, app->y + 30);
 
 	return (0);
 }
@@ -75,10 +77,10 @@ int main(int argc, char** argv)
 	app.mlx_ptr = mlx_init();
 
 	app.win_ptr = mlx_new_window(app.mlx_ptr, 640, 480, "test window");
-/*
-	app.img_ptr = mlx_xpm_file_to_image(app.mlx_ptr, "images/shield.xpm",
+
+	app.img_sprite_ptr = mlx_xpm_file_to_image(app.mlx_ptr, "images/shield.xpm",
 			       &app.image_w, &app.image_h);
-*/
+
 
 	app.img_ptr = mlx_new_image(app.mlx_ptr, 100, 100);
 
@@ -95,6 +97,7 @@ int main(int argc, char** argv)
 	mlx_loop(app.mlx_ptr);
 
 	mlx_destroy_image(app.mlx_ptr, app.img_ptr);
+	mlx_destroy_image(app.mlx_ptr, app.img_sprite_ptr);
 	
 	return (0);
 }

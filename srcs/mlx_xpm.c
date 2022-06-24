@@ -8,6 +8,7 @@
 #include "mlx_internal.h"
 #include <stdio.h>
 #include <string.h>
+# include <ctype.h>
 
 int	xpm_set_header(t_xpm *xpm, char *header)
 {
@@ -105,13 +106,28 @@ int	atoi_base(char *str, char *base)
 
 unsigned int	str_to_color(char *s)
 {
+	unsigned int	ret;
+
 	if (*s == '#')
-		return (atoi_base(++s, "0123456789ABCDEF"));
+	{
+		ret = atoi_base(++s, "0123456789ABCDEF");
+		if (ret < 0xFF000000)
+			ret += 0xFF000000;
+	}
 	
-	if (strcmp(s, "white") == 0)
-		return (0xFFFFFFFF);
+	else if (strcmp(s, "white") == 0)
+		ret = 0xFFFFFFFF;
+
+	else if (strcmp(s, "black") == 0)
+		ret = 0xFF000001;
+
+	else if (strcmp(s, "none") == 0)
+		ret = 0x0;
 	
-	return (0);
+	else 
+		ret = 0xFF000000;
+
+	return (ret);
 }
 
 void	xpm_set_colors(t_xpm *xpm, int idx, char *color)

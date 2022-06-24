@@ -26,7 +26,7 @@ void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title)
 
 	((t_mlx *)mlx_ptr)->win.render = SDL_CreateRenderer(((t_mlx *)mlx_ptr)->win.window,
                                  -1, // first renderer mode
-                                 SDL_RENDERER_ACCELERATED);
+                                 SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	return (&((t_mlx *)mlx_ptr)->win);
 }
 

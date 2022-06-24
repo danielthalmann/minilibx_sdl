@@ -44,6 +44,8 @@ void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 
 	if(img)
 	{
+		SDL_SetTextureBlendMode(img->texture, SDL_BLENDMODE_BLEND);
+
 		SDL_SetRenderTarget(img->render, img->texture);
 
 		SDL_Rect rect = {0, 0, 1, 1};
@@ -52,7 +54,10 @@ void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 			rect.x = (i) % img->width;
 			rect.y = (i) / img->width;
 
-			SDL_SetRenderDrawColor(img->render, ((xpm.image[i] >> 16) & 0xFF), ((xpm.image[i] >> 8) & 0xFF), ((xpm.image[i]) & 0xFF), 255);
+			SDL_SetRenderDrawColor(img->render, ((xpm.image[i] >> 16) & 0xFF),
+				((xpm.image[i] >> 8) & 0xFF),
+				((xpm.image[i]) & 0xFF),
+				((xpm.image[i] >> 24) & 0xFF));
 			SDL_RenderFillRect(img->render, &rect);
 		}
 

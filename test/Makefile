@@ -32,7 +32,20 @@ MLX_INCLUDE  = ../include/
 
 CFLAGS       += -I $(MLX_INCLUDE)
 
+ifeq ($(OS),Windows_NT)
 
+    COMMA:= ,
+    EMPTY:=
+    SPACE:= $(EMPTY) $(EMPTY)
+    
+    RM_OBJS := PowerShell -Command "Remove-item $(subst $(SPACE), $(COMMA),$(strip $(OBJS)))"
+    RM_OUTPUT := PowerShell -Command "Remove-item $(NAME)"
+else
+
+    RM_OBJS := rm -f $(OBJS)
+    RM_OUTPUT := rm -f $(NAME)
+
+endif
 
 all          : $(NAME)
 
@@ -41,10 +54,10 @@ $(NAME)      : $(OBJS)
 	$(CC) $^ $(LDFLAGS) -o $(NAME) $(MLX_LIB) $(SDL2_LIB)
 
 clean        :
-	rm -f $(OBJS)
+	- $(RM_OBJS)
 
 fclean       : clean
-	rm -f $(NAME)
+	- $(RM_OUTPUT)
 
 run          : $(NAME)
 	./$(NAME)
