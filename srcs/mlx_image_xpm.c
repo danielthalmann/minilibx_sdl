@@ -2,14 +2,16 @@
  * @file mlx_image_xpm.c
  * @author Daniel Thalmann (daniel@thalmann.li)
  * @date 2022-06-14
- * 
+ *
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 # include <unistd.h>
-# define BUFFER_SIZE 512
+# include <fcntl.h>
+# include <string.h>
+# include <ctype.h>
+# include <stdio.h>
 
 void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 			  int *width, int *height)
@@ -20,29 +22,29 @@ void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 	(void) width;
 	(void) height;
 
+	int		i;
+	t_xpm	xpm;
+
+	if (!*xpm_data || !*xpm_data)
+		return (NULL);
+
+	if (xpm_set_header(&xpm, *xpm_data))
+		return (NULL);
+
+	printf("xpm info :\n");
+	printf("\twidth : %d\n", xpm.header.width);
+	printf("\theight : %d\n", xpm.header.height);
+	printf("\tpalette size : %d\n", xpm.header.color_palette);
+	printf("\tchar per pixel : %d\n", xpm.header.chars_per_pixel);
+
+	i = 0;
+	while (xpm_data[++i] && i <= xpm.header.color_palette)
+		xpm_set_colors(&xpm, (i - 1), xpm_data[i]);
+
+	free(xpm.colors);
+
 	return (NULL);
 }
-
-void	*mlx_xpm_file_to_image(void *mlx_ptr, char *filename,
-			       int *width, int *height)
-{
-	(void) mlx_ptr;
-	(void) filename;
-	(void) width;
-	(void) height;
-
-	return (NULL);
-}
-
-typedef struct s_buffer_read
-{
-	int		fd;
-	int		pos;
-	int		pos_end;
-	int		size;
-	int		last_read;
-	char	buffer[BUFFER_SIZE + 1];
-}	t_buffer_read;
 
 int	slen(char *s)
 {
@@ -116,5 +118,131 @@ char	*get_nextline(int fd)
 			return (ret);
 		read_buffer(fd, &buf);
 	}
+	return (ret);
+}
+
+int	has_start_comment(char *s)
+{
+	if (s && *s)
+	{
+		while(isspace(*s))
+			s++;
+		if (strncmp(s, "/*", 2) == 0)
+			return (1);
+	}
+	return (0);
+}
+
+int	has_stop_comment(char *s)
+{
+	while (*s)
+	{
+		if (*s == '*')
+			if (strncmp(s, "*/", 2) == 0)
+				return (1);
+		s++;
+	}
+	return (0);
+}
+
+void	read_next(int fd, char **line)
+{
+	if (*line)
+		free(*line);
+
+	*line = get_nextline(fd);
+
+	if (*line && has_start_comment(*line))
+	{
+		while (!has_stop_comment(*line))
+		{
+			free(*line);
+			*line = get_nextline(fd);
+		}
+		free(*line);
+		*line = get_nextline(fd);
+	}
+}
+
+int	slen_to(char *s, char c)
+{
+	int	count;
+
+	if (!s)
+		return (0);
+	count = 0;
+	while (s[count] && s[count] != c)
+		count++;
+	return (count);
+}
+
+void	*close_fd_return_null(int fd)
+{
+	close(fd);
+	return (NULL);
+}
+
+void	*mlx_xpm_file_to_image(void *mlx_ptr, char *filename,
+				int *width, int *height)
+{
+	int		fd;
+	char	*line;
+	char	*tmp;
+	char	**xpm_data;
+	t_list	*list;
+	int		list_length;
+	int		i;
+	void	*ret;
+
+	list_length = 0;
+	list = NULL;
+	fd = open(filename, O_RDONLY);
+	if (fd)
+	{
+		/* first line must be XPM */
+		line = get_nextline(fd);
+		if (!line)
+			return (close_fd_return_null(fd));
+		if (strncmp(line, XPM_FILE_HEADER, 9) != 0)
+			return (close_fd_return_null(fd));
+
+		/* the second instruction must contain "static char *" */
+		read_next(fd, &line);
+		if (!line)
+			return (close_fd_return_null(fd));
+		if (strncmp(line, "static char *", 13) != 0)
+		{
+			close(fd);
+			return (NULL);
+		}
+		read_next(fd, &line);
+		while (line && *line)
+		{
+			if (*line == '"')
+			{
+				i = slen_to(&line[1], '"');
+				tmp = malloc((i + 1) * sizeof(char));
+				strncpy(tmp, &line[1], i);
+				tmp[i] = '\0';
+				lst_add_back(&list, lst_new(tmp));
+				list_length++;
+			}
+			read_next(fd, &line);
+		}
+		free(line);
+	}
+	close(fd);
+	xpm_data = cpy_list_to_char(list, list_length);
+	lst_clear(&list, NULL);
+
+	ret = (mlx_xpm_to_image(mlx_ptr, xpm_data,
+			  width, height));
+
+	// free list xpm_data
+	i = -1;
+	while (xpm_data[++i])
+		free (xpm_data[i]);
+	free (xpm_data);
+
 	return (ret);
 }

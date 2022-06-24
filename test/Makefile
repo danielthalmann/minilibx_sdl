@@ -11,8 +11,10 @@ MLX_LIB_NAME = libmlx.a
 
 ifeq ($(OS),Windows_NT)
     MLX_LIB_PATH := $(addsuffix win/, $(MLX_LIB_PATH))
+    SDL2_LIB     = -D_REENTRANT -lSDL2
 else
-    UNAME_S := $(shell uname -s)
+    UNAME_S      := $(shell uname -s)
+    SDL2_LIB     = $(shell sdl2-config --cflags --libs)
     ifeq ($(UNAME_S),Linux)
         MLX_LIB_PATH := $(addsuffix linux/, $(MLX_LIB_PATH))
     endif
@@ -26,7 +28,7 @@ MLX_INCLUDE  = ../include/
 
 CFLAGS       = -Wall -Werror -Wextra -I $(MLX_INCLUDE)
 
-SDL2_LIB     = $(shell sdl2-config --cflags --libs)
+
 
 all          : $(NAME)
 

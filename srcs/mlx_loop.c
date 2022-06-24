@@ -5,9 +5,7 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
-
 
 int	mlx_loop_hook (void *mlx_ptr, int (*funct_ptr)(void *), void *param)
 {
@@ -34,21 +32,21 @@ int	mlx_loop (void *mlx_ptr)
 				((t_mlx *)mlx_ptr)->loop_funct_param);
 		while(SDL_PollEvent(&event))
 		{
-			if(event.type == SDL_QUIT)
+			if (event.type == SDL_QUIT)
 			{
 				mlx_raise_quit(&((t_mlx *)mlx_ptr)->win);
 				((t_mlx *)mlx_ptr)->quit_loop = 1;
 			}
-			if(event.type == SDL_KEYDOWN)
+			if (event.type == SDL_KEYDOWN)
 				mlx_raise_keydown(&((t_mlx *)mlx_ptr)->win, &event.key.keysym);
-			if(event.type == SDL_KEYUP)
+			if (event.type == SDL_KEYUP)
 				mlx_raise_keyup(&((t_mlx *)mlx_ptr)->win, &event.key.keysym);
-			if(event.type == SDL_WINDOWEVENT)
+			if (event.type == SDL_WINDOWEVENT)
 				if (event.window.event == SDL_WINDOWEVENT_SHOWN)
 					mlx_raise_expose(&((t_mlx *)mlx_ptr)->win);
-			if(event.type == SDL_MOUSEBUTTONDOWN)
+			if (event.type == SDL_MOUSEBUTTONDOWN)
 				mlx_raise_mousedown(&((t_mlx *)mlx_ptr)->win, &event.button);
-			if(event.type == SDL_MOUSEBUTTONUP)
+			if (event.type == SDL_MOUSEBUTTONUP)
 				mlx_raise_mouseup(&((t_mlx *)mlx_ptr)->win, &event.button);
 		}
 		if (!((t_mlx *)mlx_ptr)->quit_loop)

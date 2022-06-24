@@ -5,7 +5,6 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 int     mlx_mouse_hide()

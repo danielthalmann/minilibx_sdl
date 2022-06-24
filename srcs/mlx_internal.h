@@ -8,13 +8,64 @@
 #ifndef MLX_INTERNAL_H
 #define	MLX_INTERNAL_H
 
-#include "mlx_key.h"
-#include "mlx_event.h"
-#include <stdlib.h>
-#include <SDL2/SDL.h>
+# define COLOR_BY_PIXEL	4
+# define BUFFER_SIZE 512
+# define XPM_FILE_HEADER "/* XPM */"
 
-#define COLOR_BY_PIXEL	4
+# include "mlx.h"
+# include "mlx_key.h"
+# include "mlx_event.h"
+# include <stdlib.h>
+# include <SDL2/SDL.h>
 
+typedef struct s_buffer_read
+{
+	int		fd;
+	int		pos;
+	int		pos_end;
+	int		size;
+	int		last_read;
+	char	buffer[BUFFER_SIZE + 1];
+}	t_buffer_read;
+
+
+typedef struct s_list
+{
+	char			*s;
+	struct s_list	*next;
+}	t_list;
+
+t_list		*lst_last(t_list *lst);
+void		lst_add_back(t_list **alst, t_list *new);
+t_list		*lst_new(char *s);
+void		lst_del_one(t_list *lst, void (*del)(void*));
+void		lst_clear(t_list **lst, void (*del)(void*));
+char		**cpy_list_to_char(t_list *list, int list_length);
+
+
+typedef struct s_xpm_header
+{
+	int	width;
+	int	height;
+	int	color_palette;
+	int chars_per_pixel;
+}	t_xpm_header;
+
+typedef struct s_xpm_color
+{
+	int	color;
+	char *chars_pixel;
+}	t_xpm_color;
+
+typedef struct s_xpm
+{
+	t_xpm_header	header;
+	t_xpm_color*	colors;
+	char**			image;
+}	t_xpm;
+
+int		xpm_set_header(t_xpm *xpm, char *header);
+void	xpm_set_colors(t_xpm *xpm, int idx, char *color);
 
 typedef struct s_mlx_window
 {

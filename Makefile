@@ -7,10 +7,12 @@ SRCS         = mlx_color.c \
                mlx_image_xpm.c \
                mlx_image.c \
                mlx_key.c \
+               mlx_list.c \
                mlx_loop.c \
                mlx_mouse.c \
                mlx_string.c \
                mlx_window.c \
+               mlx_xpm.c \
                mlx.c \
 
 OBJS         = $(addprefix $(SRC_PATH), $(SRCS:.c=.o))

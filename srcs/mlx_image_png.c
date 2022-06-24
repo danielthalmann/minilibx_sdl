@@ -5,7 +5,6 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 void    *mlx_png_file_to_image(void *mlx_ptr, char *file, 

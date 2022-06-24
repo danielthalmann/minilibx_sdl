@@ -5,7 +5,6 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 int	mlx_keycode_to_mxl_key(SDL_Scancode scancode)

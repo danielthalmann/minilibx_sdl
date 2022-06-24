@@ -5,7 +5,6 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,

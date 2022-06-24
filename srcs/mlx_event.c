@@ -5,7 +5,6 @@
  * 
  */
 
-#include "mlx.h"
 #include "mlx_internal.h"
 
 int	mlx_raise_expose(t_mlx_window *win_ptr)

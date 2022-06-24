@@ -62,6 +62,9 @@
 		</Unit>
 		<Unit filename="srcs/mlx_internal.h" />
 		<Unit filename="srcs/mlx_key.h" />
+		<Unit filename="srcs/mlx_key.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="srcs/mlx_loop.c">
 			<Option compilerVar="CC" />
 		</Unit>

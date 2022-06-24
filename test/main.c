@@ -28,6 +28,8 @@ typedef struct s_app
 	int		bits_per_pixel;
 	int		size_line; 
 	int		endian;
+	int		image_w;
+	int		image_h;
 	int		x;
 	int		y;
 
@@ -49,15 +51,15 @@ int key_release(int keycode, void *param)
 {
 
 	// printf("key code : %d, %c\n", keycode, keycode);
-	if(keycode == KEY_ESC)
+	if (keycode == KEY_ESC)
 		exit(0);
-	if(keycode == KEY_UP)
+	if (keycode == KEY_UP)
 		((t_app *)param)->y--;
-	if(keycode == KEY_DOWN)
+	if (keycode == KEY_DOWN)
 		((t_app *)param)->y++;
-	if(keycode == KEY_LEFT)
+	if (keycode == KEY_LEFT)
 		((t_app *)param)->x--;
-	if(keycode == KEY_RIGHT)
+	if (keycode == KEY_RIGHT)
 		((t_app *)param)->x++;
 
 	return (0);
@@ -73,6 +75,9 @@ int main(int argc, char** argv)
 	app.mlx_ptr = mlx_init();
 
 	app.win_ptr = mlx_new_window(app.mlx_ptr, 640, 480, "test window");
+
+	app.img_ptr = mlx_xpm_file_to_image(app.mlx_ptr, "images/shield.xpm",
+			       &app.image_w, &app.image_h);
 
 	app.img_ptr = mlx_new_image(app.mlx_ptr, 100, 100);
 
