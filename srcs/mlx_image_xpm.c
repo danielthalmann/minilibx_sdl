@@ -22,8 +22,9 @@ void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 	(void) width;
 	(void) height;
 
-	int		i;
-	t_xpm	xpm;
+	int			i;
+	t_xpm		xpm;
+	t_mlx_img	*img;
 
 	if (!*xpm_data || !*xpm_data)
 		return (NULL);
@@ -38,12 +39,34 @@ void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
 	printf("\tchar per pixel : %d\n", xpm.header.chars_per_pixel);
 
 	i = 0;
-	while (xpm_data[++i] && i <= xpm.header.color_palette)
+	while (xpm_data[++i] && (i - 1) < xpm.header.color_palette)
 		xpm_set_colors(&xpm, (i - 1), xpm_data[i]);
 
-	free(xpm.colors);
+	while (xpm_data[++i])
+		xpm_set_image(&xpm, (i - 1 - xpm.header.color_palette), xpm_data[i]);
 
-	return (NULL);
+	img = (t_mlx_img *)mlx_new_image(mlx_ptr, xpm.header.width, xpm.header.height);
+
+	if(img)
+	{
+		SDL_SetRenderTarget(img->render, img->texture);
+
+		SDL_Rect rect = {0, 0, 1, 1};
+		for (int i = 0; i < img->width * img->height; i += COLOR_BY_PIXEL)
+		{
+			rect.x = (i / COLOR_BY_PIXEL) % img->width;
+			rect.y = (i / COLOR_BY_PIXEL) / img->width;
+
+			SDL_SetRenderDrawColor(img->render, ((xpm.image[i] >> 16) & 0xFF), ((xpm.image[i] >> 8) & 0xFF), ((xpm.image[i]) & 0xFF), 255);
+			SDL_RenderFillRect(img->render, &rect);
+		}
+
+		SDL_SetRenderTarget(img->render, NULL);		
+	}
+	
+	xpm_free(&xpm);
+
+	return (img);
 }
 
 int	slen(char *s)

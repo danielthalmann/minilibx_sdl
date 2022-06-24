@@ -61,11 +61,13 @@ typedef struct s_xpm
 {
 	t_xpm_header	header;
 	t_xpm_color*	colors;
-	char**			image;
+	int*			image;
 }	t_xpm;
 
 int		xpm_set_header(t_xpm *xpm, char *header);
 void	xpm_set_colors(t_xpm *xpm, int idx, char *color);
+void	xpm_set_image(t_xpm *xpm, int y, char *row);
+void	xpm_free(t_xpm *xpm);
 
 typedef struct s_mlx_window
 {

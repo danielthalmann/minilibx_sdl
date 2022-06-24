@@ -9,9 +9,13 @@ CC           = gcc
 MLX_LIB_PATH = ../lib/
 MLX_LIB_NAME = libmlx.a
 
+CFLAGS       = -Wall -Werror -Wextra
+
+
 ifeq ($(OS),Windows_NT)
+    CFLAGS       += 
     MLX_LIB_PATH := $(addsuffix win/, $(MLX_LIB_PATH))
-    SDL2_LIB     = -D_REENTRANT -lSDL2
+    SDL2_LIB     = -mwindows -lmingw32 -lSDL2main -lSDL2
 else
     UNAME_S      := $(shell uname -s)
     SDL2_LIB     = $(shell sdl2-config --cflags --libs)
@@ -26,7 +30,7 @@ endif
 MLX_LIB      = $(MLX_LIB_PATH)$(MLX_LIB_NAME)
 MLX_INCLUDE  = ../include/
 
-CFLAGS       = -Wall -Werror -Wextra -I $(MLX_INCLUDE)
+CFLAGS       += -I $(MLX_INCLUDE)
 
 
 

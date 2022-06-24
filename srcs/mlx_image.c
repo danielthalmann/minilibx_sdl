@@ -14,11 +14,7 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
 
 	if (!(img = malloc(sizeof(t_mlx_img))))
 		return (NULL);
-	if (!(img->data = calloc(width * height * COLOR_BY_PIXEL, sizeof(char))))
-	{
-		free(img);
-		return (NULL);
-	}
+	img->data = NULL;
 	img->texture = SDL_CreateTexture(((t_mlx *)mlx_ptr)->win.render,
                                SDL_PIXELFORMAT_RGBA8888,
                                SDL_TEXTUREACCESS_TARGET,
@@ -26,7 +22,6 @@ void	*mlx_new_image(void *mlx_ptr, int width, int height)
                                height);
 	if (!img->texture)
 	{
-		free(img->data);
 		free(img);
 		return (NULL);
 	}
@@ -44,6 +39,12 @@ char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
 	*bits_per_pixel = ((t_mlx_img *)img_ptr)->bpp;
 	*size_line = ((t_mlx_img *)img_ptr)->width * COLOR_BY_PIXEL;
 	*endian = 0; // little endian
+
+	if (!(((t_mlx_img *)img_ptr)->data = 
+			calloc(((t_mlx_img *)img_ptr)->width * ((t_mlx_img *)img_ptr)->height * COLOR_BY_PIXEL,
+			sizeof(char))))
+		return (NULL);
+
 	return ((char *)((t_mlx_img *)img_ptr)->data);
 }
 
@@ -66,6 +67,9 @@ int	mlx_destroy_image(void *mlx_ptr, void *img_ptr)
 
 void	mlx_refresh_texture(t_mlx_img *img)
 {
+	if (!(img->data))
+		return ;
+		
 	SDL_SetRenderTarget(img->render, img->texture);
 
 	SDL_Rect rect = {0, 0, 1, 1};
