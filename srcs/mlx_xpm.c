@@ -32,10 +32,76 @@ int	xpm_set_header(t_xpm *xpm, char *header)
 	return (0);
 }
 
+int	ft_valid_base(int b, char *base)
+{
+	int	i;
+	int	j;
+
+	if (b < 2)
+		return (0);
+	i = 0;
+	while (i < b - 1)
+	{
+		if (base[i] == '+' || base[i] == '-')
+			return (0);
+		j = i + 1;
+		while (j < b)
+		{
+			if (base[i] == base[j])
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	if (base[++i] == '+' || base[i] == '-')
+		return (0);
+	return (1);
+}
+
+unsigned int	ft_get_value(char *str, char *base, int b)
+{
+	unsigned int	value;
+	int				i;
+
+	value = 0;
+	while (*str)
+	{
+		i = 0;
+		while (base[i] != *str && i < b)
+			i++;
+		if (i == b)
+			return (0);
+		value *= b;
+		value += i;
+		str++;
+	}
+	return (value);
+}
+
+int	atoi_base(char *str, char *base)
+{
+	int	b;
+	int	neg;
+
+	b = strlen(base);
+	if (!ft_valid_base(b, base))
+		return (0);
+	while (*str && isspace(*str))
+		str++;
+	neg = 1;
+	if (*str == '-')
+	{
+		neg = -1;
+		str++;
+	}
+	return (neg * ft_get_value(str, base, b));
+}
+
+
 int	str_to_color(char *s)
 {
 	if (*s == '#')
-		return (atoi(++s));
+		return (atoi_base(++s, "0123456789ABCDEF"));
 	if (strcmp(s, "white"))
 		return (0xFFFFFF);
 	return (0);
